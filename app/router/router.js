@@ -1,4 +1,3 @@
-const { default: axios } = require("axios")
 const { HomeRoutes } = require("./api")
 const { CategoryRoutes } = require("./api/category")
 const { HardshipRoutes } = require("./api/hardship")
