@@ -61,7 +61,7 @@ class UserController extends Controller {
           maxAge: tokenexpires,
           httpOnly: true, // optional
           secure: true, // optional, set to true if using HTTPS
-          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+          sameSite: "lax", // optional, can be 'strict', 'lax', or 'none'
         })
         .status(httpstatuscodes.OK)
         .json({
