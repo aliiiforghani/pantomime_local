@@ -10,6 +10,11 @@ async function checkLogin(req, res, next) {
   try {
     let accesstoken = req.signedCookies["accesstoken"];
     let refreshtoken = req.signedCookies["refreshtoken"];
+
+    if (!accesstoken) accesstoken = req.cookies.accesstoken;
+
+    if (!refreshtoken) refreshtoken = req.cookies.refreshtoken;
+
     if (!accesstoken) accesstoken = null;
 
     if (!refreshtoken) refreshtoken = null;
