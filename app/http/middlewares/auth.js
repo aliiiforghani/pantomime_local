@@ -32,14 +32,42 @@ async function checkLogin(req, res, next) {
         req.user = user;
         res
           .cookie("accesstoken", accesstoken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            expires: tokenexpires,
+            domain: ".prorobo.ir",
+            signed: true, // Indicates if the cookie should be signed
+            maxAge: tokenexpires,
+            httpOnly: true, // optional
+            secure: true, // optional, set to true if using HTTPS
+            sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
           })
-          .cookie("refreshtoken", newrefreshtoken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            expires: refreshtokenexpires,
+          .cookie("accesstoken", accesstoken, {
+            signed: true, // Indicates if the cookie should be signed
+            maxAge: tokenexpires,
+            httpOnly: true, // optional
+            secure: true, // optional, set to true if using HTTPS
+            sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+          })
+          .cookie("accesstoken", accesstoken, {
+            domain: ".api.prorobo.ir",
+            signed: true, // Indicates if the cookie should be signed
+            maxAge: tokenexpires,
+            httpOnly: true, // optional
+            secure: true, // optional, set to true if using HTTPS
+            sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+          })
+          .cookie("refreshtoken", refreshtoken, {
+            domain: ".prorobo.ir",
+            signed: true, // Indicates if the cookie should be signed
+            maxAge: refreshtokenexpires,
+            httpOnly: true, // optional
+            secure: true, // optional, set to true if using HTTPS
+            sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+          })
+          .cookie("refreshtoken", refreshtoken, {
+            signed: true, // Indicates if the cookie should be signed
+            maxAge: refreshtokenexpires,
+            httpOnly: true, // optional
+            secure: true, // optional, set to true if using HTTPS
+            sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
           });
         return next();
       }
