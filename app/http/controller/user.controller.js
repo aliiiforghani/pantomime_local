@@ -52,8 +52,6 @@ class UserController extends Controller {
       };
       const tokenexpires = 24 * 60 * 60 * 1000;
       const refreshtokenexpires = 30 * 24 * 60 * 60 * 1000;
-
-      res;
       return res
         .cookie("accesstoken", accesstoken, {
           domain: ".pantomime.iran.liara.run",
