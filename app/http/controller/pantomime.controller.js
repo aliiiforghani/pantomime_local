@@ -27,7 +27,7 @@ class PantomimeController extends Controller {
         hardship,
         title,
         text,
-        category: [category, "6484417da2a73e14fc2785e1"], //host 
+        category: [category, "6484417da2a73e14fc2785e1"], //host
         // category: [category, "648343164bc83c8d3dbfe5a9"], //local
       });
       if (sentence.modifiedCount == 0)
