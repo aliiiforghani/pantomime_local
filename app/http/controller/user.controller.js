@@ -43,6 +43,7 @@ class UserController extends Controller {
       if (!user) throw createHttpError.BadRequest("کاربری یافت نشد");
       if (password !== user.password)
         throw createHttpError.Unauthorized("نام کاربری یا رمز عبور اشتباه است");
+      req.user = user
       const accesstoken = await SignAccessToken(user._id);
       const refreshtoken = await SignRefreshToken(user._id);
       const userInformation = {

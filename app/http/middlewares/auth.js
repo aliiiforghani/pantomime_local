@@ -23,6 +23,8 @@ async function checkLogin(req, res, next) {
         const { accesstoken, newrefreshtoken } = await verifyRefreshToken(
           refreshtoken
         );
+        user = await verifyAccessTokenWithoutError(accesstoken);
+        req.user = user;
         res
           .cookie("accesstoken", accesstoken, {
             httpOnly: true,
@@ -59,7 +61,7 @@ async function checkLogin(req, res, next) {
         }
         return next();
       }
-      req.user=user
+      req.user = user;
       return next();
     }
   } catch (error) {
