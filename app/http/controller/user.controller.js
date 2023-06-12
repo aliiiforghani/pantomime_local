@@ -62,6 +62,14 @@ class UserController extends Controller {
           secure: true, // optional, set to true if using HTTPS
           sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
         })
+        .cookie("accesstoken", accesstoken, {
+          domain: ".api.prorobo.ir",
+          signed: true, // Indicates if the cookie should be signed
+          maxAge: tokenexpires,
+          httpOnly: true, // optional
+          secure: true, // optional, set to true if using HTTPS
+          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+        })
         .cookie("refreshtoken", refreshtoken, {
           domain: ".prorobo.ir",
           signed: true, // Indicates if the cookie should be signed
