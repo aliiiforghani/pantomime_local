@@ -40,7 +40,7 @@ module.exports = class Application {
     // }
     // this.#app.use(cors(corsOptions))
     this.#app.use(
-      cors({ credentials: true, origin: "https://prorobo.ir" })
+      cors({ credentials: true, origin: ["https://prorobo.ir", "https://api.prorobo.ir"] })
     );
     this.#app.use(morgan("dev"));
     this.#app.use(express.json());

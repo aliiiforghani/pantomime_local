@@ -53,11 +53,19 @@ class UserController extends Controller {
       const tokenexpires = 24 * 60 * 60 * 1000;
       const refreshtokenexpires = 30 * 24 * 60 * 60 * 1000;
 
-      return res
+      return (res
         .cookie("accesstoken", accesstoken, {
           domain: ".prorobo.ir",
           signed: true, // Indicates if the cookie should be signed
           maxAge: tokenexpires,
+          httpOnly: true, // optional
+          secure: true, // optional, set to true if using HTTPS
+          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+        })
+        .cookie("refreshtoken", refreshtoken, {
+          domain: ".prorobo.ir",
+          signed: true, // Indicates if the cookie should be signed
+          maxAge: refreshtokenexpires,
           httpOnly: true, // optional
           secure: true, // optional, set to true if using HTTPS
           sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
@@ -71,7 +79,9 @@ class UserController extends Controller {
             refreshtoken,
             userInformation,
           },
-        });
+        })     
+        )
+      
     } catch (error) {
       next(error);
     }
