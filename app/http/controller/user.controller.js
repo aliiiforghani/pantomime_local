@@ -38,7 +38,6 @@ class UserController extends Controller {
   async userLogin(req, res, next) {
     try {
       const { username, password } = req.body;
-      console.log(req.body);
       await userRegister.validateAsync(req.body);
       const user = await this.checkExistUser(username);
       if (!user) throw createHttpError.BadRequest("کاربری یافت نشد");
@@ -53,9 +52,16 @@ class UserController extends Controller {
       const tokenexpires = 24 * 60 * 60 * 1000;
       const refreshtokenexpires = 30 * 24 * 60 * 60 * 1000;
 
-      return (res
+      return res
         .cookie("accesstoken", accesstoken, {
           domain: ".prorobo.ir",
+          signed: true, // Indicates if the cookie should be signed
+          maxAge: tokenexpires,
+          httpOnly: true, // optional
+          secure: true, // optional, set to true if using HTTPS
+          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+        })
+        .cookie("accesstoken", accesstoken, {
           signed: true, // Indicates if the cookie should be signed
           maxAge: tokenexpires,
           httpOnly: true, // optional
@@ -78,18 +84,21 @@ class UserController extends Controller {
           secure: true, // optional, set to true if using HTTPS
           sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
         })
+        .cookie("refreshtoken", refreshtoken, {
+          signed: true, // Indicates if the cookie should be signed
+          maxAge: refreshtokenexpires,
+          httpOnly: true, // optional
+          secure: true, // optional, set to true if using HTTPS
+          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+        })
         .status(httpstatuscodes.OK)
         .json({
           statusCode: httpstatuscodes.OK,
           data: {
             message: "با موفقیت وارد شدید",
-            accesstoken,
-            refreshtoken,
             userInformation,
           },
-        })     
-        )
-      
+        });
     } catch (error) {
       next(error);
     }

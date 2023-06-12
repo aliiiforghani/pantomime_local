@@ -1,5 +1,7 @@
 const hardshipController = require("../../http/controller/hardship.controller");
-const { HardshipController } = require("../../http/controller/hardship.controller");
+const {
+  HardshipController,
+} = require("../../http/controller/hardship.controller");
 const { checkLogin } = require("../../http/middlewares/auth");
 
 const router = require("express").Router();
@@ -26,7 +28,6 @@ const router = require("express").Router();
  *                      enum: [آسان, متوسط, سخت, خیلی سخت]
  */
 
-
 /**
  * @swagger
  *  /hardship/add:
@@ -43,15 +44,14 @@ const router = require("express").Router();
  *                  application/json:
  *                      schema:
  *                          $ref : '#/components/schemas/AddHardship'
- *          responses: 
+ *          responses:
  *              200:
  *                  description : success
  *              400:
  *                  description : error
  */
 
-
-router.post("/add", checkLogin ,HardshipController.addHardship)
+router.post("/add", checkLogin, HardshipController.addHardship);
 
 /**
  * @swagger
@@ -60,20 +60,15 @@ router.post("/add", checkLogin ,HardshipController.addHardship)
  *          tags: [hardship]
  *          summary: get all hardship
  *          description: get all hardship
- *          responses: 
+ *          responses:
  *              200:
  *                  description : success
  *              400:
  *                  description : error
  */
 
-
-router.get("/all" , HardshipController.getAllHardship)
-
-
-
-
+router.get("/all", HardshipController.getAllHardship);
 
 module.exports = {
-    HardshipRoutes : router
-}
+  HardshipRoutes: router,
+};
