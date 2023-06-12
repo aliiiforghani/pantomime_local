@@ -60,8 +60,8 @@ class UserController extends Controller {
           "accesstoken",
           accesstoken,
           {
-            domain: "pantomime.iran.liara.run",
-            path: "/",
+            domain: ".pantomime.iran.liara.run",
+            signed: true, // Indicates if the cookie should be signed
             expires: tokenexpires,
             httpOnly: true, // optional
             secure: true, // optional, set to true if using HTTPS
@@ -70,8 +70,8 @@ class UserController extends Controller {
           "refreshtoken",
           refreshtoken,
           {
-            domain: "pantomime.iran.liara.run",
-            path: "/",
+            domain: ".pantomime.iran.liara.run",
+            signed: true, // Indicates if the cookie should be signed
             expires: refreshtokenexpires,
             httpOnly: true, // optional
             secure: true, // optional, set to true if using HTTPS
