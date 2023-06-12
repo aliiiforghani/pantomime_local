@@ -39,7 +39,7 @@ module.exports = class Application {
     //     }}
     // }
     // this.#app.use(cors(corsOptions))
-    this.#app.use(cors({ credentials: true }));
+    this.#app.use(cors({origin:"https://pantomime.iran.liara.run"}));
     this.#app.use(morgan("dev"));
     this.#app.use(express.json());
     this.#app.use(express.urlencoded({ extended: true }));
