@@ -56,24 +56,28 @@ class UserController extends Controller {
       );
       res;
       return res
-        .setHeader("Set-Cookie", [
-          cookie.serialize("accesstoken", accesstoken, {
+        .cookie(
+          "accesstoken",
+          accesstoken,
+          {
             domain: "pantomime.iran.liara.run",
             path: "/",
             expires: tokenexpires,
             httpOnly: true, // optional
             secure: true, // optional, set to true if using HTTPS
             sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
-          }),
-          cookie.serialize("refreshtoken", refreshtoken, {
+          },
+          "refreshtoken",
+          refreshtoken,
+          {
             domain: "pantomime.iran.liara.run",
             path: "/",
             expires: refreshtokenexpires,
             httpOnly: true, // optional
             secure: true, // optional, set to true if using HTTPS
             sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
-          }),
-        ])
+          }
+        )
         .status(httpstatuscodes.OK)
         .json({
           statusCode: httpstatuscodes.OK,
