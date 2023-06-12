@@ -50,10 +50,9 @@ class UserController extends Controller {
         firstname: user.first_name,
         lastname: user.last_name,
       };
-      const tokenexpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
-      const refreshtokenexpires = new Date(
-        Date.now() + 30 * 24 * 60 * 60 * 1000
-      );
+      const tokenexpires = 24 * 60 * 60 * 1000;
+      const refreshtokenexpires = 30 * 24 * 60 * 60 * 1000;
+
       res;
       return res
         .cookie(
@@ -62,7 +61,7 @@ class UserController extends Controller {
           {
             domain: ".pantomime.iran.liara.run",
             signed: true, // Indicates if the cookie should be signed
-            expires: tokenexpires,
+            maxAge: tokenexpires,
             httpOnly: true, // optional
             secure: true, // optional, set to true if using HTTPS
             sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
@@ -72,7 +71,7 @@ class UserController extends Controller {
           {
             domain: ".pantomime.iran.liara.run",
             signed: true, // Indicates if the cookie should be signed
-            expires: refreshtokenexpires,
+            maxAge: refreshtokenexpires,
             httpOnly: true, // optional
             secure: true, // optional, set to true if using HTTPS
             sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
