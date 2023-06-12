@@ -100,7 +100,23 @@ router.post("/register", userRegisterController.userRegister)
 router.post("/login", userRegisterController.userLogin)
 
 
+/**
+ * @swagger
+ *  /user/profile:
+ *      get:
+ *          tags: [user-register]
+ *          summary: get user profile
+ *          description: get user  
+ *          responses: 
+ *              200:
+ *                  description : success
+ *              400:
+ *                  description : error
+ */
 
+
+
+router.get("/profile", userRegisterController.getUserProfile);
 module.exports = {
     UserRoutes : router
 }

@@ -108,6 +108,23 @@ class UserController extends Controller {
     const user = await UserModel.findOne({ username });
     return user;
   }
+
+  async getUserProfile(req, res) {
+    console.log(req.user);
+    // const { _id: userId } = req.user;
+    // const user = await UserModel.findById(userId, { otp: 0 });
+    // const cart = (await getUserCartDetail(userId))?.[0];
+    // const payments = await PaymentModel.find({ user: userId });
+
+    // return res.status(httpstatuscodes.OK).json({
+    //   statusCode: httpstatuscodes.OK,
+    //   data: {
+    //     user,
+    //     payments,
+    //     cart,
+    //   },
+    // });
+  }
 }
 
 module.exports = {

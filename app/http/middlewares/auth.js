@@ -8,7 +8,6 @@ const {
 const httpstatuscodes = require("http-status-codes");
 async function checkLogin(req, res, next) {
   try {
-    console.log(req.signedCookies);
     let accesstoken = req.signedCookies["accesstoken"];
     let refreshtoken = req.signedCookies["refreshtoken"];
     if (!accesstoken) accesstoken = null;
@@ -60,6 +59,7 @@ async function checkLogin(req, res, next) {
         }
         return next();
       }
+      req.user=user
       return next();
     }
   } catch (error) {
