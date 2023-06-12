@@ -55,7 +55,7 @@ class UserController extends Controller {
 
        return res
         .cookie("accesstoken", accesstoken, {
-          // domain: ".pantomime.iran.liara.run",
+          domain: "http://pantomime.iran.liara.run",
           signed: true, // Indicates if the cookie should be signed
           maxAge: tokenexpires,
           httpOnly: true, // optional
