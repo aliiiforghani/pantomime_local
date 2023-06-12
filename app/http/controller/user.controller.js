@@ -50,29 +50,35 @@ class UserController extends Controller {
             const tokenexpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
             const refreshtokenexpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
             res
-            return res.setHeader('Set-Cookie', [cookie.serialize('accesstoken', accesstoken, {
-                // domain: 'prorobo.ir',
-                path: '/',
-                expires: tokenexpires,
-                httpOnly: true, // optional
-                secure: true, // optional, set to true if using HTTPS
-                sameSite: 'strict', // optional, can be 'strict', 'lax', or 'none'
-              }),cookie.serialize('refreshtoken', refreshtoken, {
-                // domain: 'prorobo.ir',
-                path: '/',
-                expires: refreshtokenexpires,
-                httpOnly: true, // optional
-                secure: true, // optional, set to true if using HTTPS
-                sameSite: 'strict', // optional, can be 'strict', 'lax', or 'none'
-              })]).status(httpstatuscodes.OK).json({
-                statusCode : httpstatuscodes.OK,
-                  data: {
-                    message: "با موفقیت وارد شدید",
-                    accesstoken,
-                    refreshtoken,
-                    userInformation
-                }
-            })
+            return res
+              .setHeader("Set-Cookie", [
+                cookie.serialize("accesstoken", accesstoken, {
+                  domain: "pantomime.iran.liara.run",
+                  path: "/",
+                  expires: tokenexpires,
+                  httpOnly: true, // optional
+                  secure: true, // optional, set to true if using HTTPS
+                  sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+                }),
+                cookie.serialize("refreshtoken", refreshtoken, {
+                  domain: "pantomime.iran.liara.run",
+                  path: "/",
+                  expires: refreshtokenexpires,
+                  httpOnly: true, // optional
+                  secure: true, // optional, set to true if using HTTPS
+                  sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+                }),
+              ])
+              .status(httpstatuscodes.OK)
+              .json({
+                statusCode: httpstatuscodes.OK,
+                data: {
+                  message: "با موفقیت وارد شدید",
+                  accesstoken,
+                  refreshtoken,
+                  userInformation,
+                },
+              });
         } catch (error) {
             next(error)
         }
