@@ -40,7 +40,7 @@ module.exports = class Application {
     // }
     // this.#app.use(cors(corsOptions))
     this.#app.use(
-      cors({ credentials: true, origin: process.env.ALLOW_CORS_ORIGIN })
+      cors()
     );
     this.#app.use(morgan("dev"));
     this.#app.use(express.json());
