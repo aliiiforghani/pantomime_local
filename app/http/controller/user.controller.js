@@ -55,28 +55,14 @@ class UserController extends Controller {
 
       res;
       return res
-        .cookie(
-          "accesstoken",
-          accesstoken,
-          {
-            domain: ".pantomime.iran.liara.run",
-            signed: true, // Indicates if the cookie should be signed
-            maxAge: tokenexpires,
-            httpOnly: true, // optional
-            secure: true, // optional, set to true if using HTTPS
-            sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
-          },
-          "refreshtoken",
-          refreshtoken,
-          {
-            domain: ".pantomime.iran.liara.run",
-            signed: true, // Indicates if the cookie should be signed
-            maxAge: refreshtokenexpires,
-            httpOnly: true, // optional
-            secure: true, // optional, set to true if using HTTPS
-            sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
-          }
-        )
+        .cookie("accesstoken", accesstoken, {
+          domain: ".pantomime.iran.liara.run",
+          signed: true, // Indicates if the cookie should be signed
+          maxAge: tokenexpires,
+          httpOnly: true, // optional
+          secure: true, // optional, set to true if using HTTPS
+          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+        })
         .status(httpstatuscodes.OK)
         .json({
           statusCode: httpstatuscodes.OK,
