@@ -53,9 +53,9 @@ class UserController extends Controller {
       const tokenexpires = 24 * 60 * 60 * 1000;
       const refreshtokenexpires = 30 * 24 * 60 * 60 * 1000;
 
-       return res
+      return res
         .cookie("accesstoken", accesstoken, {
-          domain: "http://pantomime.iran.liara.run",
+          domain: ".prorobo.ir",
           signed: true, // Indicates if the cookie should be signed
           maxAge: tokenexpires,
           httpOnly: true, // optional
