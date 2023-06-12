@@ -13,16 +13,17 @@ class UserController extends Controller {
 
     async userRegister (req, res, next) {
         try {
-            const {first_name, last_name, mobile, username, password} = req.body;
-            await userRegister.validateAsync({username, password})
+            const { first_name, last_name, mobile, username, password } = req.body;
+            await userRegister.validateAsync({ username, password })
             const user = await this.checkExistUser(username)
             if(user) throw (createHttpError.BadRequest("نام کاربری قبلا ثبت شده است"))
+            console.log("sdas",mobile);
             const newUser = await UserModel.create({username, password, first_name, last_name, mobile})
             if(newUser.modifiedCount == 0) throw createHttpError.InternalServerError("ثبت نام انجام نشد")
             return res.status(httpstatuscodes.CREATED).json({
                 statusCode: httpstatuscodes.CREATED,
                 data : {
-                    massage : "ثبت نام شما با موفقیت انجام شد"
+                    message : "ثبت نام شما با موفقیت انجام شد"
                 }
             })
             
@@ -34,7 +35,8 @@ class UserController extends Controller {
 
     async userLogin(req, res, next) {
         try {
-            const {username, password} = req.body;
+            const { username, password } = req.body;
+            console.log(req.body);
             await userRegister.validateAsync(req.body)
             const user = await this.checkExistUser(username)
             if(!user) throw createHttpError.BadRequest("کاربری یافت نشد")
@@ -64,7 +66,8 @@ class UserController extends Controller {
                 sameSite: 'strict', // optional, can be 'strict', 'lax', or 'none'
               })]).status(httpstatuscodes.OK).json({
                 statusCode : httpstatuscodes.OK,
-                data : {
+                  data: {
+                    message: "با موفقیت وارد شدید",
                     accesstoken,
                     refreshtoken,
                     userInformation
