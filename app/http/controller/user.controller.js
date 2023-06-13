@@ -43,7 +43,7 @@ class UserController extends Controller {
       if (!user) throw createHttpError.BadRequest("کاربری یافت نشد");
       if (password !== user.password)
         throw createHttpError.Unauthorized("نام کاربری یا رمز عبور اشتباه است");
-      req.user = user
+      req.user = user;
       const accesstoken = await SignAccessToken(user._id);
       const refreshtoken = await SignRefreshToken(user._id);
       const userInformation = {
@@ -110,22 +110,68 @@ class UserController extends Controller {
     return user;
   }
 
-  async getUserProfile(req, res) {
-    console.log(req.user);
-    // const { _id: userId } = req.user;
-    // const user = await UserModel.findById(userId, { otp: 0 });
-    // const cart = (await getUserCartDetail(userId))?.[0];
-    // const payments = await PaymentModel.find({ user: userId });
-
-    // return res.status(httpstatuscodes.OK).json({
-    //   statusCode: httpstatuscodes.OK,
-    //   data: {
-    //     user,
-    //     payments,
-    //     cart,
-    //   },
-    // });
+  async userLogOut(req, res, next) {
+    console.log(req);
+    const cookieOptions = {
+      maxAge: 1,
+      expires: Date.now(),
+      httpOnly: true,
+      signed: true,
+      sameSite: "Lax",
+      secure: true,
+      path: "/",
+      domain: ".prorobo.ir",
+    };
+    const cookieOptions2 = {
+      maxAge: 1,
+      expires: Date.now(),
+      httpOnly: true,
+      signed: true,
+      sameSite: "Lax",
+      secure: true,
+      path: "/",
+      domain: ".api.prorobo.ir",
+    };
+    // const cookieOptions3 = {
+    //   maxAge: 1,
+    //   expires: Date.now(),
+    //   httpOnly: true,
+    //   signed: true,
+    //   sameSite: "Lax",
+    //   secure: true,
+    // };
+    res
+      .cookie("accesstoken", null, cookieOptions)
+      .cookie("refreshtoken", null, cookieOptions)
+      .cookie("accesstoken", null, cookieOptions2)
+      .cookie("refreshtoken", null, cookieOptions2)
+      // .cookie("accesstoken", null, cookieOptions3)
+      // .cookie("refreshtoken", null, cookieOptions3)
+      .status(httpstatuscodes.OK)
+      .json({
+        statusCode: httpstatuscodes.OK,
+        data: {
+          message: "با موفقیت خارج شدید"
+        },
+      });
   }
+
+  // async getUserProfile(req, res) {
+  //   console.log(req.user);
+  // const { _id: userId } = req.user;
+  // const user = await UserModel.findById(userId, { otp: 0 });
+  // const cart = (await getUserCartDetail(userId))?.[0];
+  // const payments = await PaymentModel.find({ user: userId });
+
+  // return res.status(httpstatuscodes.OK).json({
+  //   statusCode: httpstatuscodes.OK,
+  //   data: {
+  //     user,
+  //     payments,
+  //     cart,
+  //   },
+  // });
+  // }
 }
 
 module.exports = {
