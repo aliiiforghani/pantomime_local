@@ -132,26 +132,26 @@ class UserController extends Controller {
       path: "/",
       domain: ".api.prorobo.ir",
     };
-    // const cookieOptions3 = {
-    //   maxAge: 1,
-    //   expires: Date.now(),
-    //   httpOnly: true,
-    //   signed: true,
-    //   sameSite: "Lax",
-    //   secure: true,
-    // };
+    const cookieOptions3 = {
+      maxAge: 1,
+      expires: Date.now(),
+      httpOnly: true,
+      signed: true,
+      sameSite: "Lax",
+      secure: true,
+    };
     res
       .cookie("accesstoken", null, cookieOptions)
       .cookie("refreshtoken", null, cookieOptions)
       .cookie("accesstoken", null, cookieOptions2)
       .cookie("refreshtoken", null, cookieOptions2)
-      // .cookie("accesstoken", null, cookieOptions3)
-      // .cookie("refreshtoken", null, cookieOptions3)
+      .cookie("accesstoken", null, cookieOptions3)
+      .cookie("refreshtoken", null, cookieOptions3)
       .status(httpstatuscodes.OK)
       .json({
         statusCode: httpstatuscodes.OK,
         data: {
-          message: "با موفقیت خارج شدید"
+          message: "با موفقیت خارج شدید",
         },
       });
   }
