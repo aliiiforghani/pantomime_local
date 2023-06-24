@@ -40,9 +40,10 @@ class UserController extends Controller {
       const { username, password } = req.body;
       await userRegister.validateAsync(req.body);
       const user = await this.checkExistUser(username);
-      if (!user) throw createHttpError.BadRequest("کاربری یافت نشد");
+      if (!user) throw createHttpError.BadRequest("نام کاربری یا رمز عبور اشتباه است");
+
       if (password !== user.password)
-        throw createHttpError.Unauthorized("نام کاربری یا رمز عبور اشتباه است");
+        throw createHttpError.BadRequest("نام کاربری یا رمز عبور اشتباه است");
       req.user = user;
       const accesstoken = await SignAccessToken(user._id);
       const refreshtoken = await SignRefreshToken(user._id);
@@ -96,6 +97,7 @@ class UserController extends Controller {
         .json({
           statusCode: httpstatuscodes.OK,
           data: {
+            statusCode: httpstatuscodes.OK,
             message: "با موفقیت وارد شدید",
             userInformation,
           },

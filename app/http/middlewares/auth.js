@@ -8,6 +8,7 @@ const {
 const httpstatuscodes = require("http-status-codes");
 async function checkLogin(req, res, next) {
   try {
+    
     let accesstoken = req.signedCookies["accesstoken"];
     let refreshtoken = req.signedCookies["refreshtoken"];
 
