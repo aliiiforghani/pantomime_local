@@ -1,25 +1,37 @@
-const createHttpError = require("http-errors");
-const { UserModel } = require("../../models/user");
-const { userRegister } = require("../validator/user.schema");
-const Controller = require("./controller");
-const httpstatuscodes = require("http-status-codes");
-const { SignAccessToken, SignRefreshToken } = require("../../utils/functions");
-const { ONE_DAY, ONE_MOUNTH } = require("../../utils/constans");
-const cookie = require("cookie");
+import createHttpError from "http-errors";
+import { UserModel } from "../../models/user.js";
+import {
+  UserLoginValidator,
+  UserRegisterValidator,
+} from "../validator/user.schema.js";
+import Controller from "./controller.js";
+import httpstatuscodes from "http-status-codes";
+import { SignAccessToken, SignRefreshToken } from "../../utils/functions.js";
 
 class UserController extends Controller {
   async userRegister(req, res, next) {
     try {
-      const { first_name, last_name, mobile, username, password } = req.body;
-      await userRegister.validateAsync({ username, password });
-      const user = await this.checkExistUser(username);
-      if (user) throw createHttpError.BadRequest("نام کاربری قبلا ثبت شده است");
-      console.log("sdas", mobile);
-      const newUser = await UserModel.create({
-        username,
-        password,
+      await UserRegisterValidator.validateAsync(req.body);
+
+      const {
         first_name,
         last_name,
+        mobile,
+        username,
+        password,
+        confirmPassword,
+      } = req.body;
+
+      const user = await this.checkExistUser(username);
+
+      if (user) throw createHttpError.BadRequest("نام کاربری قبلا ثبت شده است");
+
+      const newUser = await UserModel.create({
+        username,
+        first_name,
+        last_name,
+        password,
+        confirmPassword,
         mobile,
       });
       if (newUser.modifiedCount == 0)
@@ -37,10 +49,11 @@ class UserController extends Controller {
 
   async userLogin(req, res, next) {
     try {
+      await UserLoginValidator.validateAsync(req.body);
       const { username, password } = req.body;
-      await userRegister.validateAsync(req.body);
       const user = await this.checkExistUser(username);
-      if (!user) throw createHttpError.BadRequest("نام کاربری یا رمز عبور اشتباه است");
+      if (!user)
+        throw createHttpError.BadRequest("نام کاربری یا رمز عبور اشتباه است");
 
       if (password !== user.password)
         throw createHttpError.BadRequest("نام کاربری یا رمز عبور اشتباه است");
@@ -56,42 +69,22 @@ class UserController extends Controller {
 
       return res
         .cookie("accesstoken", accesstoken, {
-          domain: ".prorobo.ir",
-          signed: true, // Indicates if the cookie should be signed
+          domain: ".proroo.ir",
+          // signed: true,
           maxAge: tokenexpires,
-          httpOnly: true, // optional
-          secure: true, // optional, set to true if using HTTPS
-          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
-        })
-        .cookie("accesstoken", accesstoken, {
-          signed: true, // Indicates if the cookie should be signed
-          maxAge: tokenexpires,
-          httpOnly: true, // optional
-          secure: true, // optional, set to true if using HTTPS
-          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
-        })
-        .cookie("accesstoken", accesstoken, {
-          domain: ".api.prorobo.ir",
-          signed: true, // Indicates if the cookie should be signed
-          maxAge: tokenexpires,
-          httpOnly: true, // optional
-          secure: true, // optional, set to true if using HTTPS
-          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+          httpOnly: true,
+          secure: true,
+          sameSite: "lax",
+          path: "/",
         })
         .cookie("refreshtoken", refreshtoken, {
-          domain: ".prorobo.ir",
-          signed: true, // Indicates if the cookie should be signed
+          domain: ".proroo.ir",
+          // signed: true,
           maxAge: refreshtokenexpires,
-          httpOnly: true, // optional
-          secure: true, // optional, set to true if using HTTPS
-          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
-        })
-        .cookie("refreshtoken", refreshtoken, {
-          signed: true, // Indicates if the cookie should be signed
-          maxAge: refreshtokenexpires,
-          httpOnly: true, // optional
-          secure: true, // optional, set to true if using HTTPS
-          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+          httpOnly: true,
+          secure: true,
+          sameSite: "lax",
+          path: "/",
         })
         .status(httpstatuscodes.OK)
         .json({
@@ -113,42 +106,29 @@ class UserController extends Controller {
   }
 
   async userLogOut(req, res, next) {
-    console.log(req);
-    const cookieOptions = {
-      maxAge: 1,
-      expires: Date.now(),
-      httpOnly: true,
-      signed: true,
-      sameSite: "Lax",
-      secure: true,
-      path: "/",
-      domain: ".prorobo.ir",
-    };
-    const cookieOptions2 = {
-      maxAge: 1,
-      expires: Date.now(),
-      httpOnly: true,
-      signed: true,
-      sameSite: "Lax",
-      secure: true,
-      path: "/",
-      domain: ".api.prorobo.ir",
-    };
-    const cookieOptions3 = {
-      maxAge: 1,
-      expires: Date.now(),
-      httpOnly: true,
-      signed: true,
-      sameSite: "Lax",
-      secure: true,
-    };
+    if (req.user) req.user = null;
+
     res
-      .cookie("accesstoken", null, cookieOptions)
-      .cookie("refreshtoken", null, cookieOptions)
-      .cookie("accesstoken", null, cookieOptions2)
-      .cookie("refreshtoken", null, cookieOptions2)
-      .cookie("accesstoken", null, cookieOptions3)
-      .cookie("refreshtoken", null, cookieOptions3)
+      .cookie("refreshtoken", null, {
+        domain: ".proroo.ir",
+        maxAge: 1,
+        expires: Date.now(),
+        httpOnly: true,
+        // signed: true,
+        sameSite: "Lax",
+        secure: true,
+        path: "/",
+      })
+      .cookie("accesstoken", null, {
+        domain: ".proroo.ir",
+        maxAge: 1,
+        expires: Date.now(),
+        httpOnly: true,
+        // signed: true,
+        sameSite: "Lax",
+        secure: true,
+        path: "/",
+      })
       .status(httpstatuscodes.OK)
       .json({
         statusCode: httpstatuscodes.OK,
@@ -157,25 +137,6 @@ class UserController extends Controller {
         },
       });
   }
-
-  // async getUserProfile(req, res) {
-  //   console.log(req.user);
-  // const { _id: userId } = req.user;
-  // const user = await UserModel.findById(userId, { otp: 0 });
-  // const cart = (await getUserCartDetail(userId))?.[0];
-  // const payments = await PaymentModel.find({ user: userId });
-
-  // return res.status(httpstatuscodes.OK).json({
-  //   statusCode: httpstatuscodes.OK,
-  //   data: {
-  //     user,
-  //     payments,
-  //     cart,
-  //   },
-  // });
-  // }
 }
 
-module.exports = {
-  userRegisterController: new UserController(),
-};
+export const userRegisterController = new UserController();
