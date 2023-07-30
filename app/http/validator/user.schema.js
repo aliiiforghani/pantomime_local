@@ -67,8 +67,8 @@ export const UserRegisterValidator = Joi.object({
         "رمز عبور وارد شده باید شامل حروف کوچک و بزرگ و اعداد باشد و ۶ تا ۳۰ کاراکتر داشته باشد"
       )
     ),
-  confirmPassword: Joi.string()
-    .valid(Joi.ref("password"))
-    .required()
-    .error(createHttpError.BadRequest("رمز عبور و تکرار آن باید یکسان باشند")),
+  // confirmPassword: Joi.string()
+  //   .valid(Joi.ref("password"))
+  //   .required()
+  //   .error(createHttpError.BadRequest("رمز عبور و تکرار آن باید یکسان باشند")),
 });

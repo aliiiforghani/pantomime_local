@@ -19,7 +19,7 @@ class UserController extends Controller {
         mobile,
         username,
         password,
-        confirmPassword,
+        // confirmPassword,
       } = req.body;
 
       const user = await this.checkExistUser(username);
@@ -31,7 +31,7 @@ class UserController extends Controller {
         first_name,
         last_name,
         password,
-        confirmPassword,
+        // confirmPassword,
         mobile,
       });
       if (newUser.modifiedCount == 0)
