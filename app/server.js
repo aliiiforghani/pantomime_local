@@ -23,30 +23,14 @@ module.exports = class Application {
     this.initClientSession();
     this.connectToMongoDB();
     this.createServer();
-    // this.initRedis()
     this.createRoutes();
     this.errorHandling();
   }
   configApplication() {
-    //     const whitelist = ['http://prorobo.ir']
-    //     const corsOptions = {
-    //         origin: function(origin, callback) {
-    //             console.log('Received origin:', origin, 'callback:', callback);
-    //         if (whitelist.indexOf(origin) !== -1) {
-    //         callback(null, true)
-    //     } else {
-    //         callback(new Error('دسترسی شما به دلیل امنیت سرور امکان پذیر نیست'))
-    //     }}
-    // }
-    // this.#app.use(cors(corsOptions))
     this.#app.use(
       cors({
         credentials: true,
-        origin: [
-          "https://prorobo.ir",
-          "https://api.prorobo.ir",
-          "http://localhost:3000",
-        ],
+        origin: ["https://proroo.ir", "https://pantomime.proroo.ir"],
       })
     );
     this.#app.use(morgan("dev"));
@@ -74,7 +58,7 @@ module.exports = class Application {
               },
             },
             server: {
-              url: "http://127.0.0.1:1000",
+              url: "http://pantomime-api.proroo.ir",
             },
           },
           apis: ["./app/router/**/*.js"],
@@ -112,15 +96,12 @@ module.exports = class Application {
       process.exit(0);
     });
   }
-  // initRedis(){
-  //     require("./utils/initRedis")
-  // }
+
   initClientSession() {
     this.#app.use(cookieParser(COOKIE_PARSER_SECRET_KET));
     this.#app.use(
       session({
         secret: COOKIE_PARSER_SECRET_KET,
-        // cookie: { domain:'.prorobo.ir'},
         resave: true,
         saveUninitialized: true,
       })
