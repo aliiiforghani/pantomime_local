@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema(
     mobile: { type: String },
     email: { type: String, lowercase: true },
     password: { type: String, required: true },
-    // confirmPassword: { type: String, required: true },
+    confirmPassword: { type: String, required: true },
     Role: { type: [String], default: "USER" },
   },
   {
