@@ -27,7 +27,8 @@ class PantomimeController extends Controller {
         hardship,
         title,
         text,
-        category: [category, "64c699c3188ea1c9d208c75f"], //host
+        category: [category, "6484417da2a73e14fc2785e1"], //host
+        // category: [category, "648343164bc83c8d3dbfe5a9"], //local
       });
       if (sentence.modifiedCount == 0)
         throw createHttpError("پیشنهاد شما ثبت نشد");
@@ -50,7 +51,8 @@ class PantomimeController extends Controller {
         hardship,
         title,
         text,
-        category: [category, "64c699c3188ea1c9d208c75f"], //host
+        category: [category, "6484417da2a73e14fc2785e1"], //host
+        // category: [category, "648343164bc83c8d3dbfe5a9"], //local
         published: true,
       });
       if (sentence.modifiedCount == 0)
