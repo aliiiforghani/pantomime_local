@@ -69,34 +69,19 @@ class UserController extends Controller {
       return res
         .cookie("accesstoken", accesstoken, {
           domain: ".pantomime.proroo.ir",
-          signed: true, // Indicates if the cookie should be signed
+          signed: true,
           maxAge: tokenexpires,
-          httpOnly: true, // optional
-          secure: true, // optional, set to true if using HTTPS
-          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+          httpOnly: true,
+          secure: true, 
+          sameSite: "strict", 
         })
-        .cookie("accesstoken", accesstoken, {
-          signed: true, // Indicates if the cookie should be signed
-          maxAge: tokenexpires,
-          httpOnly: true, // optional
-          secure: true, // optional, set to true if using HTTPS
-          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
-        })
-
         .cookie("refreshtoken", refreshtoken, {
           domain: ".pantomime.proroo.ir",
-          signed: true, // Indicates if the cookie should be signed
+          signed: true, 
           maxAge: refreshtokenexpires,
-          httpOnly: true, // optional
-          secure: true, // optional, set to true if using HTTPS
-          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
-        })
-        .cookie("refreshtoken", refreshtoken, {
-          signed: true, // Indicates if the cookie should be signed
-          maxAge: refreshtokenexpires,
-          httpOnly: true, // optional
-          secure: true, // optional, set to true if using HTTPS
-          sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+          httpOnly: true,
+          secure: true, 
+          sameSite: "strict",
         })
         .status(httpstatuscodes.OK)
         .json({
@@ -124,7 +109,7 @@ class UserController extends Controller {
       expires: Date.now(),
       httpOnly: true,
       signed: true,
-      sameSite: "Lax",
+      sameSite: "strict",
       secure: true,
       path: "/",
       domain: ".pantomime.proroo.ir",
@@ -135,7 +120,7 @@ class UserController extends Controller {
       expires: Date.now(),
       httpOnly: true,
       signed: true,
-      sameSite: "Lax",
+      sameSite: "strict",
       secure: true,
     };
     res
