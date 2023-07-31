@@ -69,8 +69,6 @@ router.post("/add", checkLogin ,CategoryController.addCategory)
 
 router.get("/all" ,CategoryController.getAllCategory)
 
-
-
 /**
  * @swagger
  *  /category/remove/{id}:
