@@ -1,17 +1,22 @@
 const createHttpError = require("http-errors");
-
 const {
   verifyAccessToken,
   verifyRefreshToken,
   verifyAccessTokenWithoutError,
 } = require("./verifytoken.js");
 
-async function checkLogin(req, res, next) {
+export async function checkLogin(req, res, next) {
   try {
-    let accesstoken =
-      req.cookies.accesstoken || req.signedCookies["accesstoken"];
-    let refreshtoken =
-      req.cookies.refreshtoken || req.signedCookies["refreshtoken"];
+    let accesstoken = req.signedCookies["accesstoken"];
+    let refreshtoken = req.signedCookies["refreshtoken"];
+
+    if (!accesstoken) accesstoken = req.cookies.accesstoken;
+
+    if (!refreshtoken) refreshtoken = req.cookies.refreshtoken;
+
+    if (!accesstoken) accesstoken = null;
+
+    if (!refreshtoken) refreshtoken = null;
 
     const tokenexpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
     const refreshtokenexpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
@@ -22,32 +27,51 @@ async function checkLogin(req, res, next) {
         const { accesstoken, newrefreshtoken } = await verifyRefreshToken(
           refreshtoken
         );
-        const user = await verifyAccessTokenWithoutError(accesstoken);
-
+        user = await verifyAccessTokenWithoutError(accesstoken);
         req.user = user;
         res
           .cookie("accesstoken", accesstoken, {
-            domain: ".proroo.ir",
-            // signed: true,
+            domain: ".prorobo.ir",
+            signed: true, // Indicates if the cookie should be signed
             maxAge: tokenexpires,
-            httpOnly: true,
-            secure: true,
-            sameSite: "lax",
-            path: "/",
+            httpOnly: true, // optional
+            secure: true, // optional, set to true if using HTTPS
+            sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
           })
-          .cookie("refreshtoken", newrefreshtoken, {
-            domain: ".proroo.ir",
-            // signed: true,
+          .cookie("accesstoken", accesstoken, {
+            signed: true, // Indicates if the cookie should be signed
+            maxAge: tokenexpires,
+            httpOnly: true, // optional
+            secure: true, // optional, set to true if using HTTPS
+            sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+          })
+          .cookie("accesstoken", accesstoken, {
+            domain: ".api.prorobo.ir",
+            signed: true, // Indicates if the cookie should be signed
+            maxAge: tokenexpires,
+            httpOnly: true, // optional
+            secure: true, // optional, set to true if using HTTPS
+            sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+          })
+          .cookie("refreshtoken", refreshtoken, {
+            domain: ".prorobo.ir",
+            signed: true, // Indicates if the cookie should be signed
             maxAge: refreshtokenexpires,
-            httpOnly: true,
-            secure: true,
-            sameSite: "lax",
-            path: "/",
+            httpOnly: true, // optional
+            secure: true, // optional, set to true if using HTTPS
+            sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
+          })
+          .cookie("refreshtoken", refreshtoken, {
+            signed: true, // Indicates if the cookie should be signed
+            maxAge: refreshtokenexpires,
+            httpOnly: true, // optional
+            secure: true, // optional, set to true if using HTTPS
+            sameSite: "strict", // optional, can be 'strict', 'lax', or 'none'
           });
         return next();
       }
     } else {
-      const user = await verifyAccessTokenWithoutError(accesstoken);
+      user = await verifyAccessTokenWithoutError(accesstoken);
       if (!user) {
         const { accesstoken, newrefreshtoken } = await verifyRefreshToken(
           refreshtoken
@@ -57,22 +81,14 @@ async function checkLogin(req, res, next) {
         } else {
           res
             .cookie("accesstoken", accesstoken, {
-              domain: ".proroo.ir",
-              // signed: true,
-              maxAge: tokenexpires,
               httpOnly: true,
-              secure: true,
-              sameSite: "lax",
-              path: "/",
+              secure: process.env.NODE_ENV === "production",
+              expires: tokenexpires,
             })
             .cookie("refreshtoken", newrefreshtoken, {
-              domain: ".proroo.ir",
-              // signed: true,
-              maxAge: refreshtokenexpires,
               httpOnly: true,
-              secure: true,
-              sameSite: "lax",
-              path: "/",
+              secure: process.env.NODE_ENV === "production",
+              expires: refreshtokenexpires,
             });
         }
         return next();
@@ -84,6 +100,3 @@ async function checkLogin(req, res, next) {
     next(error);
   }
 }
-module.exports = {
-  checkLogin,
-};

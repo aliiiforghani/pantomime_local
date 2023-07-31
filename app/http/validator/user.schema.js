@@ -20,11 +20,6 @@ const userRegister = Joi.object({
       )
     ),
 });
-<<<<<<< HEAD
-module.exports = {
-  userRegister,
-};
-=======
 
 export const UserRegisterValidator = Joi.object({
   username: Joi.string()
@@ -77,4 +72,3 @@ export const UserRegisterValidator = Joi.object({
     .required()
     .error(createHttpError.BadRequest("رمز عبور و تکرار آن باید یکسان باشند")),
 });
->>>>>>> parent of dba0799 (try to fix user register problem)

@@ -10,10 +10,6 @@ const cookie = require("cookie");
 class UserController extends Controller {
   async userRegister(req, res, next) {
     try {
-<<<<<<< HEAD
-      const { first_name, last_name, mobile, username, password } = req.body;
-      await userRegister.validateAsync({ username, password });
-=======
       await UserRegisterValidator.validateAsync(req.body);
 
       const {
@@ -25,7 +21,6 @@ class UserController extends Controller {
         confirmPassword,
       } = req.body;
 
->>>>>>> parent of dba0799 (try to fix user register problem)
       const user = await this.checkExistUser(username);
       if (user) throw createHttpError.BadRequest("نام کاربری قبلا ثبت شده است");
       console.log("sdas", mobile);
@@ -34,11 +29,8 @@ class UserController extends Controller {
         password,
         first_name,
         last_name,
-<<<<<<< HEAD
-=======
         password,
         confirmPassword,
->>>>>>> parent of dba0799 (try to fix user register problem)
         mobile,
       });
       if (newUser.modifiedCount == 0)
@@ -59,8 +51,7 @@ class UserController extends Controller {
       const { username, password } = req.body;
       await userRegister.validateAsync(req.body);
       const user = await this.checkExistUser(username);
-      if (!user)
-        throw createHttpError.BadRequest("نام کاربری یا رمز عبور اشتباه است");
+      if (!user) throw createHttpError.BadRequest("نام کاربری یا رمز عبور اشتباه است");
 
       if (password !== user.password)
         throw createHttpError.BadRequest("نام کاربری یا رمز عبور اشتباه است");
