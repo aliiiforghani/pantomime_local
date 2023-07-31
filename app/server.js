@@ -30,7 +30,7 @@ module.exports = class Application {
     this.#app.use(
       cors({
         credentials: true,
-        origin: "http://localhost:3000",
+        origin: "https://pantomime.proroo.ir",
       })
     );
     this.#app.use(morgan("dev"));
