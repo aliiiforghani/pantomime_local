@@ -21,7 +21,7 @@ const userRegister = Joi.object({
     ),
 });
 
-export const UserRegisterValidator = Joi.object({
+const UserRegisterValidator = Joi.object({
   username: Joi.string()
     .alphanum()
     .lowercase()
@@ -72,3 +72,8 @@ export const UserRegisterValidator = Joi.object({
     .required()
     .error(createHttpError.BadRequest("رمز عبور و تکرار آن باید یکسان باشند")),
 });
+
+module.exports = {
+  UserRegisterValidator,
+  userRegister,
+};
