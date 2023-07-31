@@ -69,7 +69,7 @@ class UserController extends Controller {
       return res
         .cookie("accesstoken", accesstoken, {
           domain: ".pantomime.proroo.ir",
-          signed: true,
+          // signed: true,
           maxAge: tokenexpires,
           httpOnly: true,
           secure: true, 
@@ -77,7 +77,7 @@ class UserController extends Controller {
         })
         .cookie("refreshtoken", refreshtoken, {
           domain: ".pantomime.proroo.ir",
-          signed: true, 
+          // signed: true, 
           maxAge: refreshtokenexpires,
           httpOnly: true,
           secure: true, 
