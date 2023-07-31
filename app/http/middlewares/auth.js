@@ -1,12 +1,12 @@
-import createHttpError from "http-errors";
-import { UserModel } from "../../models/user.js";
-import {
+const createHttpError = require("http-errors");
+
+const {
   verifyAccessToken,
   verifyRefreshToken,
   verifyAccessTokenWithoutError,
-} from "./verifytoken.js";
+} = require("./verifytoken.js");
 
-export async function checkLogin(req, res, next) {
+async function checkLogin(req, res, next) {
   try {
     let accesstoken =
       req.cookies.accesstoken || req.signedCookies["accesstoken"];
@@ -84,3 +84,6 @@ export async function checkLogin(req, res, next) {
     next(error);
   }
 }
+module.exports = {
+  checkLogin,
+};
