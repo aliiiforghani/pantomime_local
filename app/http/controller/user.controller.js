@@ -72,16 +72,16 @@ class UserController extends Controller {
           // signed: true,
           maxAge: tokenexpires,
           httpOnly: true,
-          secure: true, 
-          sameSite: "lax", 
+          secure: true,
+          sameSite: "strict",
         })
         .cookie("refreshtoken", refreshtoken, {
           domain: ".pantomime.proroo.ir",
-          // signed: true, 
+          // signed: true,
           maxAge: refreshtokenexpires,
           httpOnly: true,
-          secure: true, 
-          sameSite: "lax",
+          secure: true,
+          sameSite: "strict",
         })
         .status(httpstatuscodes.OK)
         .json({

@@ -1,6 +1,5 @@
 const createHttpError = require("http-errors");
 const {
-  verifyAccessToken,
   verifyRefreshToken,
   verifyAccessTokenWithoutError,
 } = require("./verifytoken.js");
@@ -32,7 +31,7 @@ async function checkLogin(req, res, next) {
             secure: true,
             sameSite: "strict",
           })
-          .cookie("refreshtoken", refreshtoken, {
+          .cookie("refreshtoken", newrefreshtoken, {
             domain: ".pantomime.proroo.ir",
             signed: true,
             maxAge: refreshtokenexpires,
@@ -49,26 +48,26 @@ async function checkLogin(req, res, next) {
         const { accesstoken, newrefreshtoken } = await verifyRefreshToken(
           refreshtoken
         );
-        if (!accesstoken || !refreshtoken) {
+        if (!accesstoken || !newrefreshtoken) {
           throw createHttpError.Unauthorized("وارد حساب کاربری خود شوید");
         } else {
           res
-          .cookie("accesstoken", accesstoken, {
-            domain: ".pantomime.proroo.ir",
-            signed: true,
-            maxAge: tokenexpires,
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict",
-          })
-          .cookie("refreshtoken", newrefreshtoken, {
-            domain: ".pantomime.proroo.ir",
-            signed: true,
-            maxAge: refreshtokenexpires,
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict",
-          });
+            .cookie("accesstoken", accesstoken, {
+              domain: ".pantomime.proroo.ir",
+              signed: true,
+              maxAge: tokenexpires,
+              httpOnly: true,
+              secure: true,
+              sameSite: "strict",
+            })
+            .cookie("refreshtoken", newrefreshtoken, {
+              domain: ".pantomime.proroo.ir",
+              signed: true,
+              maxAge: refreshtokenexpires,
+              httpOnly: true,
+              secure: true,
+              sameSite: "strict",
+            });
         }
         return next();
       }
